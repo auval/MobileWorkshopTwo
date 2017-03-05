@@ -23,6 +23,6 @@ Create a new github project for the course.
 
 Create a layout with two fragments.
 Add a textField on one fragment, and when changed, display the text on the other fragment.
-Use EventBus for the communication between the fragments.
+Use [EventBus](http://greenrobot.org/eventbus/) for the communication between the fragments.
 
 - push the changes to GitHab

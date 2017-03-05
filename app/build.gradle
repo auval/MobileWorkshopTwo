@@ -6,7 +6,7 @@ android {
     defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ eventBusIndex : 'ac.shenkar.workshoptwo.MyEventBusIndex' ]
+                arguments = [eventBusIndex: 'ac.shenkar.workshoptwo.MyEventBusIndex']
             }
         }
         applicationId "ac.shenkar.workshoptwo"
@@ -26,15 +26,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    // the two lines below are for EventBus by http://greenrobot.org/eventbus
-    compile 'org.greenrobot:eventbus:3.0.0'
-    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
-
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    compile 'com.android.support:support-v4:25.2.0'
     testCompile 'junit:junit:4.12'
+
+    // the two lines below are for EventBus by http://greenrobot.org/eventbus
+    compile 'org.greenrobot:eventbus:3.0.0'
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
 }
