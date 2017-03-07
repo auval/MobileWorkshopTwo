@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "493831966115",
+    "firebase_url": "https://shenkartwo.firebaseio.com",
+    "project_id": "shenkartwo",
+    "storage_bucket": "shenkartwo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493831966115:android:5caf526d88e3eafe",
+        "android_client_info": {
+          "package_name": "ac.shenkar.workshoptwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493831966115-4ssmve2g3edng6qsjv27qjgvmmq6lrt4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2ld6q1H_Eiz0StH6kT4VWct0y7pzhhnw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

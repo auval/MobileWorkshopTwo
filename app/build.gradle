@@ -38,3 +38,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
 }
+// firebase
+apply plugin: 'com.google.gms.google-services'
