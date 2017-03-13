@@ -10,11 +10,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import static ac.shenkar.workshoptwo.MyFragmentEvent.SHOW_TOAST;
-import static ac.shenkar.workshoptwo.MyFragmentEvent.SOME_COMMAND;
-import static ac.shenkar.workshoptwo.MyFragmentEvent.SOME_OTHER_COMMAND;
-
 public class MainActivity extends AppCompatActivity {
+    static {
+        // something that must be called once at start
+        FirebaseHelper.initFirebase();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +39,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEventFromFragment(MyFragmentEvent event) {
-        switch (event.getCommand()) {
-            case SHOW_TOAST:
-                Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
-                break;
-            case SOME_COMMAND:
-            case SOME_OTHER_COMMAND:
-            default:
-
-        }
+    public void gotNewBoardMessage(BoardMessage event) {
+        Toast.makeText(this, "got message: " + event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -2,14 +2,14 @@ package ac.shenkar.workshoptwo;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 /**
@@ -18,14 +18,8 @@ import org.greenrobot.eventbus.EventBus;
  * create an instance of this fragment.
  */
 public class SomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String TAG = SomeFragment.class.getSimpleName();
+    EditText editText;
 
     public SomeFragment() {
         // Required empty public constructor
@@ -43,8 +37,6 @@ public class SomeFragment extends Fragment {
     public static SomeFragment newInstance(String param1, String param2) {
         SomeFragment fragment = new SomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         // The arguments supplied here will be retained across fragment destroy and creation
         fragment.setArguments(args);
         return fragment;
@@ -54,8 +46,19 @@ public class SomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+
+    /**
+     * don't forget to register and unregister in start/stop
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void gotNewBoardMessage(BoardMessage event) {
+        if (editText != null) {
+            editText.setText(event.getMessage());
         }
     }
 
@@ -65,19 +68,31 @@ public class SomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_some, container, false);
 
-        final EditText editText = (EditText) view.findViewById(R.id.editText);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText = (EditText) view.findViewById(R.id.editText);
+
+        FirebaseHelper.wireFirebase();
+
+        View buttonSend = view.findViewById(R.id.button_send);
+        buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                EventBus.getDefault().post(new MyFragmentEvent(MyFragmentEvent.SHOW_TOAST,v.getText().toString()));
-
-                return false;
+            public void onClick(View v) {
+                FirebaseHelper.saveInFirebase(editText.getText().toString());
             }
         });
 
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
 }

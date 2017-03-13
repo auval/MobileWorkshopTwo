@@ -37,3 +37,13 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+#firebase real time dataase
+# Add this global rule
+-keepattributes Signature
+
+# this is relevant only if using
+# DatabaseReference.setValue(myEvent) and  DataSnapshot.getValue(MyEvent.class)
+-keepclassmembers class ac.shenkar.workshoptwo.MyEvent {
+  *;
+}

@@ -26,11 +26,18 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.3-alpha', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    // list of firebase libraries: https://firebase.google.com/docs/android/setup#available_libraries
+    // firebase analytics
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    // firebase Realtime Database
+    compile 'com.google.firebase:firebase-database:10.2.0'
+
     compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    compile "com.android.support.constraint:constraint-layout:1.0.2"
     compile 'com.android.support:support-v4:25.2.0'
     testCompile 'junit:junit:4.12'
 
