@@ -17,11 +17,11 @@ import org.greenrobot.eventbus.EventBus;
 class FirebaseHelper {
 
     private static final String TAG = FirebaseHelper.class.getSimpleName();
-    private static final String REF_NAME = "board";
+//    private static final String REF_NAME = "board";
 
-    public static void saveInFirebase(String s) {
+    public static void saveInFirebase(String ref, String s) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference(REF_NAME);
+        final DatabaseReference myRef = database.getReference(ref);
 
         // Write a message to the database
         BoardMessage b = new BoardMessage();
@@ -30,17 +30,17 @@ class FirebaseHelper {
     }
 
     public static void initFirebase() {
-        // enables offline
+        // enable disk persistence with just one line of code.
         // must be the first call, and not called after other Firebase calls
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
-    public static void wireFirebase() {
+    public static void wireFirebase(String ref, final Class callbackType) {
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference(REF_NAME);
 
-        // You can enable disk persistence with just one line of code.
+        final DatabaseReference myRef = database.getReference(ref);
+
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -48,16 +48,10 @@ class FirebaseHelper {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-   /*
-                   String value = dataSnapshot.getValue(String.class);
-                   Log.d(TAG, "Value is: " + value);
 
-                   editText.setText(value);
-   */
                 Log.d(TAG, "got " + dataSnapshot);
 
-                //dataSnapshot.get
-                BoardMessage value = dataSnapshot.getValue(BoardMessage.class);
+                Object value = dataSnapshot.getValue(callbackType);
 
                 if (value != null) {
 
@@ -75,6 +69,9 @@ class FirebaseHelper {
 
     }
 
+    /**
+     * helper method in case we need to check client time offset
+     */
     public static void getClientOffset() {
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
         offsetRef.addValueEventListener(new ValueEventListener() {

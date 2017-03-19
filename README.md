@@ -11,7 +11,7 @@ Fragments
 [slides](http://goo.gl/zhNjfp)
 
 
-#### Homework
+#### Homework 1
 Create a new github project for the course.
 
 - Create a new project in Android Studio
@@ -26,3 +26,65 @@ Add a textField on one fragment, and when changed, display the text on the other
 Use [EventBus](http://greenrobot.org/eventbus/) for the communication between the fragments.
 
 - push the changes to GitHab
+
+
+### Lesson 2
+
+Firebase
+
+Install the [Lesson's apk](stuff/lesson2.apk)
+
+Tip: [making](https://github.com/auval/svg2png) this app logo from [svg](stuff/shenkar2_logo.svg).
+
+
+[slides](http://goo.gl/S8CsmK)
+
+#### Homework 2
+
+##### - Code
+
+Integrate Firebase to your homework project.
+Write a "lobby" fragment with a "sign in" button+capability, and alternating TextView or a RecyclerView
+- Implement [signing in](https://github.com/firebase/FirebaseUI-Android/tree/master/auth)
+- Unsigned user will see the string:
+   - "There are %s signed-in users and %s anonymous guests" in the TextView
+  (replace %s with the proper number).
+- signed in users will see the list and a "sign out" button.
+   - display a list of names of signed-in users.
+   - display "and %s anonymous guests", where %s is the number of unsigned users.
+- signing out will refresh the above UI accordingly
+
+##### - Experiment
+
+Viable apps evolve over time, and you will need to modify a live database.
+It's very important for your database to support different versions of your application at the same time. 
+Check what happens when a class mapped to the json tree changes:
+
+ - field added
+ - field removed
+ - field renamed
+ - field changes type
+
+
+1. Report the results of this experiment
+1. How do you think is best to maintain backward compatibility?
+
+
+#### Brainstorm
+
+Future features of your app will include:
+- make a higher level "group", lobby will be inside it
+- users will have roles within group: admin/member/guest
+- group can belong to one or more super group (group of groups, or tag)
+  (to allow users to find groups they are not members of)
+    - a group can be marked "hidden" 
+- allow a logged in user to create groups
+- allow users to join and leave existing groups
+- show a list groups, and how many users are logged in in each group
+- if the last admin leaves the group, 
+- if last user is leaving a group, delete the group from the server
+- user will be able to see all groups in his institution (school)
+
+What is the best data structure that fits the requirements?
+What is the logic flow for handling user registration and role? (admin/member/guest) 
+

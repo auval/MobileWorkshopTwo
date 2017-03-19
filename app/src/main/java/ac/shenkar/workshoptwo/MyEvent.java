@@ -7,13 +7,18 @@ package ac.shenkar.workshoptwo;
 public class MyEvent {
 
     private String message;
+    private int frag;
 
-    public MyEvent(String message) {
+    public MyEvent(String message, int frag) {
         this.message = message;
+        this.frag = frag;
     }
 
     public String getMessage() {
         return message;
     }
-    
+
+    public int getFrag() {
+        return frag;
+    }
 }

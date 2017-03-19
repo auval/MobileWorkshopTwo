@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class SomeFragment extends Fragment {
     private static final String TAG = SomeFragment.class.getSimpleName();
+    private static final String DB_NAME = "board";
     EditText editText;
 
     public SomeFragment() {
@@ -70,13 +71,13 @@ public class SomeFragment extends Fragment {
 
         editText = (EditText) view.findViewById(R.id.editText);
 
-        FirebaseHelper.wireFirebase();
+        FirebaseHelper.wireFirebase(DB_NAME, BoardMessage.class);
 
         View buttonSend = view.findViewById(R.id.button_send);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseHelper.saveInFirebase(editText.getText().toString());
+                FirebaseHelper.saveInFirebase(DB_NAME, editText.getText().toString());
             }
         });
 
