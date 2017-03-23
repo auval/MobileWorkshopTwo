@@ -38,21 +38,22 @@ dependencies {
 
     // ignore the warning due to different appcompat inside firebase ui library
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
     compile "com.android.support.constraint:constraint-layout:1.0.2"
-    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-v4:25.3.0'
     testCompile 'junit:junit:4.12'
 
     // the two lines below are for EventBus by http://greenrobot.org/eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
 
-// as instructed on: https://github.com/firebase/FirebaseUI-Android/tree/master/auth
+    // as instructed on: https://github.com/firebase/FirebaseUI-Android/tree/master/auth
     // FirebaseUI Auth
     compile 'com.firebaseui:firebase-ui-auth:1.2.0'
-    // needed for Google authentication
-//    compile 'com.google.android.gms:play-services-auth:10.2.0'
 
+    // FCM: messaging
+    // https://firebase.google.com/docs/cloud-messaging/android/client
+    compile 'com.google.firebase:firebase-messaging:10.2.0'
 
 }
 // firebase

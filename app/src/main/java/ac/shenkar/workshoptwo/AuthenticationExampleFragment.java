@@ -1,7 +1,6 @@
 package ac.shenkar.workshoptwo;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,11 +28,10 @@ import java.util.Arrays;
 public class AuthenticationExampleFragment extends Fragment {
     public static final int RC_SIGN_IN = 234;
     private static final String TAG = AuthenticationExampleFragment.class.getSimpleName();
-    private static final String DB_NAME = "users";
+    private static final String DB_NAME = "auth_board";
     EditText editText;
     TextView usernameTv;
     Button buttonLogin;
-    private boolean signedIn = false;
 
     public AuthenticationExampleFragment() {
         // Required empty public constructor
@@ -58,20 +52,6 @@ public class AuthenticationExampleFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            // already signed in
-            signedIn = true;
-        } else {
-            // not signed in
-            signedIn = false;
-        }
-    }
-
     /**
      * don't forget to register and unregister in start/stop
      *
@@ -85,12 +65,13 @@ public class AuthenticationExampleFragment extends Fragment {
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void gotSignEvent(SignEvent event) {
-        Log.i(TAG, "got sticky sign " + event.getData() + " event");
+    public void gotSignEvent(CurrentUser event) {
+        Log.i(TAG, "got sticky sign " + event.getUserData() + " event");
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = event.getUserData();
 
-        if (currentUser == null) {
+        if (currentUser == null || event.isAnonymous()) {
             // logged out
             usernameTv.setText("Please login");
             buttonLogin.setText(R.string.login);
@@ -110,13 +91,13 @@ public class AuthenticationExampleFragment extends Fragment {
 
         editText = (EditText) view.findViewById(R.id.editText);
 
-        FirebaseHelper.wireFirebase(DB_NAME, BoardMessage.class);
+        FirebaseHelper.wireSomeFirebaseTable(DB_NAME, BoardMessage.class);
 
         View buttonSend = view.findViewById(R.id.button_send);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseHelper.saveInFirebase(DB_NAME, editText.getText().toString());
+                FirebaseHelper.saveBoardMessageInFirebase(DB_NAME, editText.getText().toString());
             }
         });
 
@@ -130,25 +111,17 @@ public class AuthenticationExampleFragment extends Fragment {
             }
         });
 
-
-        EventBus.getDefault().postSticky(new SignEvent("unknown"));
+        Log.i(TAG, "onCreateView: postSticky user");
+        EventBus.getDefault().postSticky(FirebaseHelper.getCurrentUser());
 
         return view;
     }
 
     private void doSignInOutToggle() {
-        if (signedIn) {
+        if (!FirebaseHelper.getCurrentUser().isAnonymous()) {
             // sign out
             AuthUI.getInstance()
-                    .signOut(AuthenticationExampleFragment.this.getActivity())
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(getContext(), "You're now signed out", Toast.LENGTH_SHORT);
-                            signedIn = false;
-                            EventBus.getDefault().postSticky(new SignEvent("out"));
-                        }
-                    });
+                    .signOut(AuthenticationExampleFragment.this.getActivity());
 
         } else {
 
@@ -160,7 +133,7 @@ public class AuthenticationExampleFragment extends Fragment {
                                     new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
                             ))
                             .build(),
-                    RC_SIGN_IN);
+                    RC_SIGN_IN); // this callback code is not really needed - we're listening to auth changes
         }
     }
 

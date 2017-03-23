@@ -1,10 +1,8 @@
 package ac.shenkar.workshoptwo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, frag2, "my_other_frag_tag").commitNow();
                     Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Fragment #2 already added!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Auth Fragment already added!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -60,21 +58,15 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "got message: " + event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AuthenticationExampleFragment.RC_SIGN_IN) {
-            Log.i(TAG, "got sign in result: " + resultCode + " data=" + data);
-            if (resultCode == 0) {
-                // fail
-                Toast.makeText(this, "sign in failed!", Toast.LENGTH_SHORT).show();
-                EventBus.getDefault().postSticky(new SignEvent("out"));
-            } else {
-                Toast.makeText(this, "sign in succeeded" + resultCode + " " + data.getStringExtra("extra_idp_response"), Toast.LENGTH_SHORT).show();
-                EventBus.getDefault().postSticky(new SignEvent("in"));
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void gotNewFirebaseId(CurrentUser event) {
+        Toast.makeText(this, "got Firebase token: " + event.getToken(), Toast.LENGTH_SHORT).show();
+    }
 
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseHelper.getCurrentUser();
     }
 
     @Override
@@ -90,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButton2Clicked(View view) {
-        EventBus.getDefault().post(new MyEvent("Added Fragment #2!", 2));
+        EventBus.getDefault().post(new MyEvent("Added Auth Fragment!", 2));
     }
 
     public void onButton1Clicked(View view) {

@@ -47,3 +47,10 @@
 -keepclassmembers class ac.shenkar.workshoptwo.MyEvent {
   *;
 }
+
+# nice trick to simplify ProGuard preserving methods when shrinking & obfuscating
+# use @Keep annotation anywhere I want to keep a method
+-keep class android.support.annotation.Keep { *; }
+-keepclassmembers class * {
+     @android.support.annotation.Keep *;
+}

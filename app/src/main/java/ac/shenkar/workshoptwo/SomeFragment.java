@@ -71,13 +71,13 @@ public class SomeFragment extends Fragment {
 
         editText = (EditText) view.findViewById(R.id.editText);
 
-        FirebaseHelper.wireFirebase(DB_NAME, BoardMessage.class);
+        FirebaseHelper.wireSomeFirebaseTable(DB_NAME, BoardMessage.class);
 
         View buttonSend = view.findViewById(R.id.button_send);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseHelper.saveInFirebase(DB_NAME, editText.getText().toString());
+                FirebaseHelper.saveBoardMessageInFirebase(DB_NAME, editText.getText().toString());
             }
         });
 
