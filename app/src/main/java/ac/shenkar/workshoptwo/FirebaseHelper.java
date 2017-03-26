@@ -99,11 +99,6 @@ class FirebaseHelper {
         }
     }
 
-    public static void initFirebase() {
-        // enable disk persistence with just one line of code.
-        // must be the first call, and not called after other Firebase calls
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-    }
 
     /**
      * generic example

@@ -13,11 +13,6 @@ import org.greenrobot.eventbus.ThreadMode;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    static {
-        // something that must be called once at start
-        FirebaseHelper.initFirebase();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
