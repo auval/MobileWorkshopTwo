@@ -99,3 +99,9 @@ Install the [Lesson's apk](stuff/lesson3.apk)
 
 [slides](https://goo.gl/eV4BC1)
 
+#### Homework 3
+
+Extend on the firebase+widget sample app.
+- add widget configuration option to select a topic (TextField is acceptable, list of existing topics is better)
+- each widget will register as listener only for its topic, and display its current value.
+
