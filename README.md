@@ -88,3 +88,14 @@ Future features of your app will include:
 What is the best data structure that fits the requirements?
 What is the logic flow for handling user registration and role? (admin/member/guest) 
 
+
+### Lesson 3
+
+Firebase (cont)
+App Widget
+
+Install the [Lesson's apk](stuff/lesson3.apk)
+
+
+[slides](https://goo.gl/eV4BC1)
+

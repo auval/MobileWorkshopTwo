@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class SomeFragment extends Fragment {
     private static final String TAG = SomeFragment.class.getSimpleName();
-    private static final String DB_NAME = "board";
+    public static final String DB_NAME = "board";
     EditText editText;
 
     public SomeFragment() {

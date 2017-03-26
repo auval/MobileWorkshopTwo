@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="off_white">#abc</color>
+    <color name="transparent">#0000</color>
+    <color name="widget_color">#400</color>
+
 </resources>
