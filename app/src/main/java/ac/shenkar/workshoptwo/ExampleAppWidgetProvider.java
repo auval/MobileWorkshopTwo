@@ -50,6 +50,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
+        this.context = context;
         super.onEnabled(context);
     }
 
