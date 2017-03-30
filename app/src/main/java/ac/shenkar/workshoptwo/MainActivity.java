@@ -1,8 +1,10 @@
 package ac.shenkar.workshoptwo;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -10,13 +12,31 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    /**
+     * DI: there is generated code that takes care of setting value here like that:
+     * instance.sharedPreferences = sharedPreferencesProvider.get();
+     * <p>
+     * Don't forget to call the Component:
+     * InjectorClass.inject(this);
+     * in onCreate();
+     */
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // assign singleton instances to fields
+        MyApplication.getComponent(this).inject(this);
+
+        // magically, not null
+        Log.i(TAG, "sharedPreferences is " + sharedPreferences);
     }
 
     // This method will be called when a MessageEvent is posted (in the UI thread for Toast)

@@ -4,6 +4,7 @@
     package="ac.shenkar.workshoptwo">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/shenkar2_logo"
         android:label="@string/app_name"
@@ -54,7 +55,7 @@
 
         <provider
             android:name=".Bootstrapper"
-            android:authorities="${applicationId}.contentprovider"/>
+            android:authorities="${applicationId}.contentprovider" />
 
 
     </application>
