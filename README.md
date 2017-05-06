@@ -105,3 +105,17 @@ Extend on the firebase+widget sample app.
 - add widget configuration option to select a topic (TextField is acceptable, list of existing topics is better)
 - each widget will register as listener only for its topic, and display its current value.
 
+### Lesson 4
+
+App Widgets
+Services
+
+[slides](https://goo.gl/5UKF8B)
+
+### Lesson 5
+
+Data Binding
+Dependency Injection
+
+[slides](https://goo.gl/hC2fAH)
+

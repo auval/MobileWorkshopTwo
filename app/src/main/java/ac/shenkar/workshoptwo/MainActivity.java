@@ -1,6 +1,7 @@
 package ac.shenkar.workshoptwo;
 
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
+
+import ac.shenkar.workshoptwo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -28,10 +31,20 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    MyData myData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        // data binding - replaced this:
+        //   setContentView(R.layout.activity_main);
+        // with this >>
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        myData = new MyData("Activity created");
+        binding.setMyData(myData);
+        // << data binding
+
         // assign singleton instances to fields
         MyApplication.getComponent(this).inject(this);
 
@@ -70,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void gotNewBoardMessage(BoardMessage event) {
+        // data binding observer will take care of updating the text field
+        myData.setText(event.getMessage());
         Toast.makeText(this, "got message: " + event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
