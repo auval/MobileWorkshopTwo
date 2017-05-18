@@ -17,6 +17,11 @@ import ac.shenkar.di.UtilsModule;
 public class MyApplication extends Application {
     InjectorComponent component;
 
+    /**
+     * dagger 2
+     * @param context
+     * @return
+     */
     public static InjectorComponent getComponent(Context context) {
         return ((MyApplication) context.getApplicationContext()).component;
     }
@@ -26,6 +31,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         /*
+         * dagger 2
          * look inside app/build/source/apt/debug/... for the following generated java code
          */
         component = DaggerInjectorComponent.builder()

@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
+     * Dagger 2 field injection example
      * DI: there is generated code that takes care of setting value here like that:
      * instance.sharedPreferences = sharedPreferencesProvider.get();
      * <p>

@@ -107,15 +107,33 @@ Extend on the firebase+widget sample app.
 
 ### Lesson 4
 
-App Widgets
-Services
+- App Widgets
+- Services
 
 [slides](https://goo.gl/5UKF8B)
 
 ### Lesson 5
 
-Data Binding
-Dependency Injection
+- Data Binding
+- Dependency Injection
 
 [slides](https://goo.gl/hC2fAH)
+
+
+
+### Lesson 6
+
+- Dependency Injection (Dagger 2)
+- Unit Testing
+
+[slides](https://goo.gl/wHkKVv)
+
+
+Misc:
+
+Find and replace RegEx
+change this:
+0xff443399 
+to 
+0xff_44_33_99 
 

@@ -23,7 +23,13 @@ public class UtilsModule {
 
     }
 
-    // Dagger will only look for methods annotated with @Provides
+    /**
+     * Dagger 2 example
+     * Dagger will only look for methods annotated with @Provides
+     *
+     * @param application
+     * @return
+     */
     @Provides
     @Singleton
     // Application reference must come from AppModule.class
