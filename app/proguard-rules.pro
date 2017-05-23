@@ -43,8 +43,8 @@
 -keepattributes Signature
 
 # this is relevant only if using
-# DatabaseReference.setValue(myEvent) and  DataSnapshot.getValue(MyEvent.class)
--keepclassmembers class ac.shenkar.workshoptwo.MyEvent {
+# DatabaseReference.setValue(myEvent) and  DataSnapshot.getValue(MyButtonClickEvent.class)
+-keepclassmembers class ac.shenkar.workshoptwo.MyButtonClickEvent {
   *;
 }
 

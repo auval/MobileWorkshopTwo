@@ -1,13 +1,14 @@
-package ac.shenkar.di;
+package ac.shenkar.di.module;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import javax.inject.Singleton;
 
+import ac.shenkar.workshoptwo.MyApplication;
 import dagger.Module;
 import dagger.Provides;
+import dagger.Reusable;
 
 /**
  * Dagger 2
@@ -31,9 +32,9 @@ public class UtilsModule {
      * @return
      */
     @Provides
-    @Singleton
+    @Reusable
     // Application reference must come from AppModule.class
-    SharedPreferences providesSharedPreferences(Application application) {
+    SharedPreferences providesSharedPreferences(MyApplication application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 

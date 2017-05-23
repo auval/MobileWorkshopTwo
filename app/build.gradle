@@ -31,6 +31,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.3-alpha', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        // resolves a version collision with espresso
+        exclude group: 'com.google.code.findbugs'
     })
 
     // list of firebase libraries: https://firebase.google.com/docs/android/setup#available_libraries
@@ -62,6 +64,9 @@ dependencies {
 
     // Dependency Injection
     compile 'com.google.dagger:dagger:2.10'
+    compile 'com.google.dagger:dagger-android:2.10'
+    compile 'com.google.dagger:dagger-android-support:2.10'
+
     annotationProcessor "com.google.dagger:dagger-compiler:2.10"
     // "provided" keyword refers to dependencies that are only needed at compilation
     provided 'javax.annotation:jsr250-api:1.0'

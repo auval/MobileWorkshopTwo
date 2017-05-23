@@ -4,21 +4,21 @@ package ac.shenkar.workshoptwo;
  * http://greenrobot.org/eventbus/documentation/how-to-get-started/
  * Created by amir on 3/4/17.
  */
-public class MyEvent {
+public class MyButtonClickEvent {
 
     private String message;
-    private int frag;
+    private String fragTag;
 
-    public MyEvent(String message, int frag) {
+    public MyButtonClickEvent(String message, String fragTag) {
         this.message = message;
-        this.frag = frag;
+        this.fragTag = fragTag;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public int getFrag() {
-        return frag;
+    public String getFragTag() {
+        return fragTag;
     }
 }

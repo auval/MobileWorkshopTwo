@@ -16,8 +16,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import javax.inject.Inject;
 
 import ac.shenkar.workshoptwo.databinding.ActivityMainBinding;
+import dagger.android.AndroidInjection;
 
-public class MainActivity extends AppCompatActivity {
+
+//import ac.shenkar.di.module.ViewModule;
+
+public class MainActivity extends AppCompatActivity implements FeatureView {
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -32,7 +37,13 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    @Inject
+    FeaturePresenter mPresenter;
+
     MyData myData;
+
+    private String someId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,41 +57,14 @@ public class MainActivity extends AppCompatActivity {
         binding.setMyData(myData);
         // << data binding
 
-        // assign singleton instances to fields
-        MyApplication.getComponent(this).inject(this);
+        // dagger 2: inject this activity
+        AndroidInjection.inject(this);
 
         // magically, not null
         Log.i(TAG, "sharedPreferences is " + sharedPreferences);
     }
 
-    // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MyEvent event) {
-        Fragment fragment;
-        switch (event.getFrag()) {
-            case 1:
-                fragment = getSupportFragmentManager().findFragmentByTag("my_frag_tag");
-                if (fragment == null) {
-                    SomeFragment frag = SomeFragment.newInstance("Hi", "I'm a fragment");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, frag, "my_frag_tag").commitNow();
-                    Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Fragment #1 already added!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case 2:
-                fragment = getSupportFragmentManager().findFragmentByTag("my_other_frag_tag");
-                if (fragment == null) {
-                    AuthenticationExampleFragment frag2 = AuthenticationExampleFragment.newInstance();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, frag2, "my_other_frag_tag").commitNow();
-                    Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Auth Fragment already added!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
 
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void gotNewBoardMessage(BoardMessage event) {
@@ -97,7 +81,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.onViewStarted();
+
+        // todo: move this to the model:
         FirebaseHelper.getCurrentUser();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.onViewPaused();
     }
 
     @Override
@@ -113,10 +106,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButton2Clicked(View view) {
-        EventBus.getDefault().post(new MyEvent("Added Auth Fragment!", 2));
+        mPresenter.onButtonAuthClicked();
     }
 
     public void onButton1Clicked(View view) {
-        EventBus.getDefault().post(new MyEvent("Added Fragment #1!", 1));
+        mPresenter.onButtonOneClicked();
+    }
+
+    @Override
+    public void showLoggedInFrag() {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("my_other_frag_tag");
+        if (fragment == null) {
+            AuthenticationExampleFragment frag2 = AuthenticationExampleFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, frag2, "my_other_frag_tag").commitNow();
+            Toast.makeText(this, "showLoggedInFrag completed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "LoggedInFrag already added!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @Override
+    public void showAnonymousFrag() {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("my_frag_tag");
+        if (fragment == null) {
+            SomeFragment frag = SomeFragment.newInstance("Hi", "I'm a fragment");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, frag, "my_frag_tag").commitNow();
+            Toast.makeText(this, "showAnonymousFrag completed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "AnonymousFrag already added!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String getSomeId() {
+        return someId;
+    }
+
+    public void setSomeId(String someId) {
+        this.someId = someId;
     }
 }

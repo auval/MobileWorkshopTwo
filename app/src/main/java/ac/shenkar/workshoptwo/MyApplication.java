@@ -1,12 +1,15 @@
 package ac.shenkar.workshoptwo;
 
+import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 
-import ac.shenkar.di.AppModule;
-import ac.shenkar.di.DaggerInjectorComponent;
-import ac.shenkar.di.InjectorComponent;
-import ac.shenkar.di.UtilsModule;
+import javax.inject.Inject;
+
+import ac.shenkar.di.component.DaggerAppComponent;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasDispatchingActivityInjector;
+
+//import ac.shenkar.di.DaggerInjectorComponent;
 
 /**
  * Need to add a reference in the manifest to here
@@ -14,30 +17,27 @@ import ac.shenkar.di.UtilsModule;
  * Created by amir on 3/30/17.
  */
 
-public class MyApplication extends Application {
-    InjectorComponent component;
-
+public class MyApplication extends Application implements HasDispatchingActivityInjector {
     /**
-     * dagger 2
-     * @param context
-     * @return
+     * Injecting a map from class names to providers
+     * It doesn't hold a reference to an activity, so no memory leak here
      */
-    public static InjectorComponent getComponent(Context context) {
-        return ((MyApplication) context.getApplicationContext()).component;
-    }
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        /*
-         * dagger 2
-         * look inside app/build/source/apt/debug/... for the following generated java code
-         */
-        component = DaggerInjectorComponent.builder()
-                .appModule(new AppModule(this))
-                .utilsModule(new UtilsModule())
-                .build();
+        DaggerAppComponent.builder().application(this).build().inject(this);
+
     }
+
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
+    }
+
 
 }
