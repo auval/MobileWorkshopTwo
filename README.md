@@ -128,6 +128,13 @@ Extend on the firebase+widget sample app.
 
 [slides](https://goo.gl/wHkKVv)
 
+### Lesson 6
+
+- continues lesson 6 topics
+- Mockito
+
+[slides](https://goo.gl/2hPsv8)
+
 
 Misc:
 
