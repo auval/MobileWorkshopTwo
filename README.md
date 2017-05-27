@@ -128,7 +128,7 @@ Extend on the firebase+widget sample app.
 
 [slides](https://goo.gl/wHkKVv)
 
-### Lesson 6
+### Lesson 7
 
 - continues lesson 6 topics
 - Mockito
@@ -136,11 +136,11 @@ Extend on the firebase+widget sample app.
 [slides](https://goo.gl/2hPsv8)
 
 
-Misc:
-
+Exercise:
 Find and replace RegEx
+<pre>
 change this:
 0xff443399 
 to 
 0xff_44_33_99 
-
+</pre>
