@@ -26,6 +26,9 @@ android {
         enabled = true
     }
 }
+project.ext {
+    firebaseVersion = '10.2.6'
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -37,9 +40,9 @@ dependencies {
 
     // list of firebase libraries: https://firebase.google.com/docs/android/setup#available_libraries
     // firebase analytics
-    compile 'com.google.firebase:firebase-core:10.2.0'
+    compile "com.google.firebase:firebase-core:$firebaseVersion"
     // firebase Realtime Database
-    compile 'com.google.firebase:firebase-database:10.2.0'
+    compile "com.google.firebase:firebase-database:$firebaseVersion"
 
     // ignore the warning due to different appcompat inside firebase ui library
     //noinspection GradleCompatible
@@ -50,19 +53,24 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.9'
 
-
     // the two lines below are for EventBus by http://greenrobot.org/eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.1'
 
+
+
+    // https://github.com/firebase/FirebaseUI-Android
     // as instructed on: https://github.com/firebase/FirebaseUI-Android/tree/master/auth
     // FirebaseUI Auth
-    compile 'com.firebaseui:firebase-ui-auth:1.2.0'
+    compile "com.firebaseui:firebase-ui-auth:1.2.0"
+
+    // problem: firebaseui has a dependency on old version of firebase-auth
+    // so I override the above's library dependency version:
+    compile "com.google.firebase:firebase-auth:$firebaseVersion"
 
     // FCM: messaging
     // https://firebase.google.com/docs/cloud-messaging/android/client
-    compile 'com.google.firebase:firebase-messaging:10.2.0'
-
+    compile "com.google.firebase:firebase-messaging:$firebaseVersion"
 
     // Dependency Injection
     compile 'com.google.dagger:dagger:2.10'
@@ -72,6 +80,23 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.10"
     // "provided" keyword refers to dependencies that are only needed at compilation
     provided 'javax.annotation:jsr250-api:1.0'
+
+    // google spreadsheet api // https://developers.google.com/sheets/api/quickstart/android
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    // https://developers.google.com/android/guides/setup
+    compile "com.google.android.gms:play-services-auth:$firebaseVersion"
+
+    // https://github.com/googlesamples/easypermissions
+    compile 'pub.devrel:easypermissions:0.4.0'
+
+    // https://developers.google.com/api-client-library/java/
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile('com.google.apis:google-api-services-sheets:v4-rev476-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 
 
 }

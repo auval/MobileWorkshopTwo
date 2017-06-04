@@ -144,3 +144,12 @@ change this:
 to 
 0xff_44_33_99 
 </pre>
+
+### Lesson 8
+
+- Retrofit [Sample project](https://github.com/auval/WeatherRest)
+- Sheets API
+  -- need to authorise the app to use the API [here](https://console.developers.google.com/apis/api/sheets.googleapis.com/overview).
+
+[slides](https://goo.gl/iiwtW2)
+
