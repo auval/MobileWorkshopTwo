@@ -47,6 +47,10 @@ import pub.devrel.easypermissions.EasyPermissions;
  * https://developers.google.com/sheets/api/quickstart/android
  * <p>
  * You will need to enable the API in your Google console, and add the SHA1 of your signing key
+ *
+ *
+ * demo spreadsheet:
+ * https://docs.google.com/spreadsheets/d/1y4fcDBU4yHAOElbItpEy241VpxzOKVse62bPhc2yyfs/edit?usp=sharing
  */
 public class SheetsActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
