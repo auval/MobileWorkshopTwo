@@ -3,6 +3,8 @@ package ac.shenkar.workshoptwo;
 import android.app.Activity;
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import javax.inject.Inject;
 
 import ac.shenkar.di.component.DaggerAppComponent;
@@ -26,6 +28,13 @@ public class MyApplication extends Application implements HasDispatchingActivity
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
         DaggerAppComponent.builder().application(this).build().inject(this);
 

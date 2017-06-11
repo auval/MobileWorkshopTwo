@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -47,8 +48,8 @@ import pub.devrel.easypermissions.EasyPermissions;
  * https://developers.google.com/sheets/api/quickstart/android
  * <p>
  * You will need to enable the API in your Google console, and add the SHA1 of your signing key
- *
- *
+ * <p>
+ * <p>
  * demo spreadsheet:
  * https://docs.google.com/spreadsheets/d/1y4fcDBU4yHAOElbItpEy241VpxzOKVse62bPhc2yyfs/edit?usp=sharing
  */
@@ -61,12 +62,16 @@ public class SheetsActivity extends Activity
     private static final String BUTTON_TEXT = "Call Google Sheets API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {SheetsScopes.SPREADSHEETS};
+    private static final String TAG = SheetsActivity.class.getSimpleName();
+
+
+    // leak example: make this static:
+    static LeakingListener leakExample;
+
     GoogleAccountCredential mCredential;
-    ProgressDialog mProgress;
-
-//    private TextView binding.theList;
+    //    private TextView binding.theList;
 //    private Button binding.buttonGet;
-
+    ProgressDialog mProgress;
     SheetActivityLayoutBinding binding;
 
     /**
@@ -77,6 +82,16 @@ public class SheetsActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (leakExample == null) {
+            leakExample = new LeakingListener() {
+                @Override
+                public void leak() {
+                    Log.w(TAG, "This anonymous class is assigned to a static variable. " +
+                            "It has an implicit access to the outer activity: " + SheetsActivity.this.toString());
+                }
+            };
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.sheet_activity_layout);
         binding.buttonGet.setText(BUTTON_TEXT);
@@ -135,7 +150,6 @@ public class SheetsActivity extends Activity
                         transport, jsonFactory, mCredential)
                         .build();
 
-
                 String spreadsheetId = "1y4fcDBU4yHAOElbItpEy241VpxzOKVse62bPhc2yyfs";
                 String range = "Sheet1!A2:C";
 //            List<String> results = new ArrayList<String>();
@@ -167,6 +181,11 @@ public class SheetsActivity extends Activity
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Functify.onDestroy();
+    }
 
     /**
      * Attempt to call the API, after verifying that all the preconditions are
@@ -302,7 +321,6 @@ public class SheetsActivity extends Activity
         // Do nothing.
     }
 
-
     /**
      * Callback for when a permission is denied using the EasyPermissions
      * library.
@@ -356,7 +374,6 @@ public class SheetsActivity extends Activity
         }
     }
 
-
     /**
      * Display an error dialog showing that Google Play Services is missing
      * or out of date.
@@ -372,6 +389,11 @@ public class SheetsActivity extends Activity
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
+    }
+
+
+    public interface LeakingListener {
+        void leak();
     }
 
     /**
