@@ -153,3 +153,20 @@ to
 
 [slides](https://goo.gl/iiwtW2)
 
+
+
+### Lesson 9
+
+- Memory leaks
+
+[slides](https://goo.gl/y9TUwf)
+
+### Lesson 10
+
+- The new "Android Architecture Components"
+
+[slides](https://goo.gl/3pXSbc)
+
+
+
+
