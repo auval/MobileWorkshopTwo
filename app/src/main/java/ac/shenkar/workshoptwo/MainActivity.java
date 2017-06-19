@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements FeatureView {
         Log.i(TAG, "sharedPreferences is " + sharedPreferences);
     }
 
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void gotNewBoardMessage(BoardMessage event) {
         // data binding observer will take care of updating the text field

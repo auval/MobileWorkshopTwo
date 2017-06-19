@@ -1,5 +1,7 @@
 package ac.shenkar.workshoptwo;
 
+import javax.inject.Inject;
+
 /**
  * The Presenter is responsible to act as the middle man between View and Model.
  * It retrieves data from the Model and returns it formatted to the View.
@@ -14,6 +16,7 @@ public class FeaturePresenter {
     // This could be implemented with firebase or anything else
     MyModelInterface myModel;
 
+    @Inject
     public FeaturePresenter(FeatureView view, MyModelInterface model) {
         myView = view;
         myModel = model;
